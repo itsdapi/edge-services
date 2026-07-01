@@ -16,9 +16,7 @@ services:
     restart: unless-stopped
 
   caddy:
-    build:
-      context: .
-      dockerfile: Dockerfile.caddy
+    image: ghcr.io/tailscale/caddy-tailscale:latest
     container_name: caddy
     network_mode: host
     env_file: .env
