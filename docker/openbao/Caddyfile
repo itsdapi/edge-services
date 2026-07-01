@@ -1,0 +1,6 @@
+{$NODE_HOSTNAME}:{$OPENBAO_PORT} {
+    tls {
+        get_certificate tailscale
+    }
+    reverse_proxy 127.0.0.1:{$INTERNAL_PORT}
+}

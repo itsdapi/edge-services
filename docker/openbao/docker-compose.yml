@@ -1,0 +1,37 @@
+services:
+  openbao:
+    build:
+      context: .
+      dockerfile: Dockerfile.openbao
+    container_name: openbao
+    network_mode: host
+    cap_add:
+      - IPC_LOCK
+    env_file: .env
+    volumes:
+      - ./openbao/config.hcl.tmpl:/openbao/config.hcl.tmpl:ro
+      - ./openbao-entrypoint.sh:/openbao-entrypoint.sh:ro
+      - openbao-data:/openbao/data
+    entrypoint: ["/openbao-entrypoint.sh"]
+    restart: unless-stopped
+
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    container_name: caddy
+    network_mode: host
+    env_file: .env
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
+    depends_on:
+      - openbao
+    restart: unless-stopped
+
+volumes:
+  openbao-data:
+  caddy-data:
+  caddy-config:
