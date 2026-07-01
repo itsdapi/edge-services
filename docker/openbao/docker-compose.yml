@@ -1,15 +1,13 @@
 services:
   openbao:
-    build:
-      context: .
-      dockerfile: Dockerfile.openbao
+    image: openbao/openbao:2.1
     container_name: openbao
     network_mode: host
     cap_add:
       - IPC_LOCK
     env_file: .env
+    user: root
     volumes:
-      - ./openbao/config.hcl.tmpl:/openbao/config.hcl.tmpl:ro
       - ./openbao-entrypoint.sh:/openbao-entrypoint.sh:ro
       - openbao-data:/openbao/data
     entrypoint: ["/openbao-entrypoint.sh"]

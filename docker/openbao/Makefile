@@ -4,7 +4,8 @@ CONTAINER := openbao
 BAO := docker exec $(CONTAINER) bao
 
 up:
-	docker compose up -d --build
+	docker compose pull
+	docker compose up -d
 
 down:
 	docker compose down
