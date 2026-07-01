@@ -1,4 +1,4 @@
 FROM openbao/openbao:2.1
 USER root
 RUN apk add --no-cache gettext
-USER bao
+USER openbao
